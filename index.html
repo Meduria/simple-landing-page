@@ -7,6 +7,7 @@
   <title>Headphones</title>
 
   <style>
+    /* ================= ROOT COLORS ================= */
     :root {
       --bg-main: #eaeef1;
       --text-main: #333;
@@ -15,6 +16,7 @@
       --thumb-bg: #f5f5f5;
       --border: #ccc;
       --accent: #333;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
     body.dark {
@@ -25,8 +27,10 @@
       --thumb-bg: #333;
       --border: #555;
       --accent: #ddd;
+      --shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
     }
 
+    /* ================= GLOBAL ================= */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -44,7 +48,7 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    /* ===================== TOP BAR ===================== */
+    /* ================= TOP BAR ================= */
     .top-bar {
       width: 100%;
       max-width: 1100px;
@@ -86,8 +90,8 @@
     .slider svg {
       width: 18px;
       height: 18px;
-      transition: .4s;
       opacity: 0.5;
+      transition: .3s;
     }
 
     input:checked + .slider {
@@ -107,33 +111,27 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      border: 1px solid var(--border);
       padding: 6px 12px;
-      border-radius: 6px;
       background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: .3s;
     }
 
     .cart-btn:hover {
       background: #ddd;
     }
 
-    .cart-btn svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--accent);
-    }
-
     .cart-count {
       background: red;
-      color: white;
+      color: #fff;
       padding: 2px 6px;
       font-size: 12px;
       border-radius: 50%;
     }
 
-    /* ================= MAIN LAYOUT ================= */
+    /* ================= MAIN CONTAINER ================= */
     .container {
       display: flex;
       background: var(--card);
@@ -141,9 +139,11 @@
       overflow: hidden;
       max-width: 1100px;
       width: 100%;
-      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: .3s;
     }
 
+    /* ================= THUMBNAILS ================= */
     .thumbnails {
       display: flex;
       flex-direction: column;
@@ -159,35 +159,37 @@
       cursor: pointer;
       object-fit: cover;
       border: 2px solid transparent;
-      transition: border 0.3s;
+      transition: border .3s;
     }
 
-    .thumb.active {
+    .thumb.active,
+    .thumb:hover {
       border-color: var(--accent);
     }
 
-    /* =============== PRODUCT VIEW =============== */
+    /* ================= PRODUCT VIEW ================= */
     .product-view {
       flex: 1;
-      position: relative;
       background: #dde1e7;
-      padding: 40px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      position: relative;
+      padding: 40px;
     }
 
     .main-img {
       width: 300px;
-      animation: fade 0.3s;
+      animation: fade .3s;
+      position: relative;
+      z-index: 2;
     }
 
     @keyframes fade {
       from {
         opacity: 0;
-        transform: scale(.95);
+        transform: scale(.9);
       }
-
       to {
         opacity: 1;
         transform: scale(1);
@@ -199,7 +201,6 @@
         transform: translateX(100%);
         opacity: 0;
       }
-
       to {
         transform: translateX(0);
         opacity: 1;
@@ -207,29 +208,58 @@
     }
 
     .main-img.slide {
-      animation: slideIn .4s ease forwards;
+      animation: slideIn .4s forwards;
     }
 
     .text-bg {
       position: absolute;
-      font-size: 10rem;
-      opacity: .15;
+      font-size: 12rem;
       font-weight: bold;
+      opacity: .15;
+      z-index: 0;
     }
 
-    /* =============== PRODUCT INFO =============== */
+    /* ================= PRODUCT INFO ================= */
     .product-info {
       width: 300px;
       padding: 40px;
       background: var(--white);
     }
 
+    .product-info h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .specs {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .desc {
+      margin-bottom: 20px;
+      font-size: .9rem;
+      color: #555;
+    }
+
+    .buy-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     .buy-box button {
       border: 1px solid var(--border);
       padding: 10px 20px;
       border-radius: 6px;
-      cursor: pointer;
       background: var(--white);
+      cursor: pointer;
       transition: .3s;
     }
 
@@ -237,14 +267,14 @@
       background: #ddd;
     }
 
-    /* =============== CART PANEL =============== */
+    /* ================= CART PANEL ================= */
     .cart-panel {
       position: fixed;
       top: 0;
       right: -350px;
       width: 300px;
-      height: 100%;
       background: var(--white);
+      height: 100%;
       border-left: 1px solid var(--border);
       padding: 20px;
       transition: .4s;
@@ -255,6 +285,13 @@
       right: 0;
     }
 
+    .close-cart {
+      text-align: right;
+      cursor: pointer;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
     .cart-item {
       display: flex;
       justify-content: space-between;
@@ -262,49 +299,63 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .remove svg {
-      width: 20px;
-      height: 20px;
-      stroke: red;
-      cursor: pointer;
+    /* ================= FOOTER ================= */
+    .footer {
+      margin-top: 20px;
+      color: var(--text-main);
+    }
+
+    .footer a {
+      color: #4b8ef5;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .product-info {
+        width: 100%;
+      }
     }
   </style>
-
 </head>
 
 <body>
 
+  <!-- TOP BAR -->
   <div class="top-bar">
 
-    <!-- DARK MODE SWITCH -->
+    <!-- Dark Mode Switch -->
     <label class="switch">
       <input type="checkbox" id="darkSwitch">
       <span class="slider">
-        <!-- Sun Icon -->
+        <!-- Sun -->
         <svg class="sun" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
         </svg>
 
-        <!-- Moon Icon -->
+        <!-- Moon -->
         <svg class="moon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+          <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"></path>
         </svg>
       </span>
     </label>
 
-    <!-- CART BUTTON -->
+    <!-- Cart Button -->
     <div class="cart-btn" id="cartBtn">
-      <svg fill="none" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M6 6h15l-1.5 9h-13z" />
-        <circle cx="9" cy="20" r="1" />
-        <circle cx="18" cy="20" r="1" />
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 6h15l-1.5 9h-13z"></path>
+        <circle cx="9" cy="20" r="1"></circle>
+        <circle cx="18" cy="20" r="1"></circle>
       </svg>
       <span class="cart-count">0</span>
     </div>
-
   </div>
 
+  <!-- MAIN PRODUCT -->
   <div class="container">
     <aside class="thumbnails">
       <img src="img1.png" class="thumb active" data-image="img1.png">
@@ -321,6 +372,16 @@
       <h1>ATH-DSR7BT</h1>
       <p class="subtitle">Bluetooth Wireless Headphones</p>
 
+      <div class="specs">
+        <p><strong>2.0m</strong><br>Detachable cable</p>
+        <p><strong>45mm</strong><br>True Motion drivers</p>
+      </div>
+
+      <p class="desc">
+        Enjoy rich tones from dual motion drivers. High-res audio, clear mids, deep bass.
+        Premium comfort with soft memory foam.
+      </p>
+
       <div class="buy-box">
         <span class="price">£259.00</span>
         <button id="addToCart">Add to cart</button>
@@ -330,12 +391,18 @@
 
   <!-- CART PANEL -->
   <div class="cart-panel" id="cartPanel">
+    <div class="close-cart" id="closeCart">✖</div>
     <h2>Your Cart</h2>
     <div id="cartItems"></div>
   </div>
 
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>created by <a href="https://omar-momen.vercel.app/">Omar</a></p>
+  </footer>
+
   <script>
-    /* ========== THEME ========== */
+    /* ========== DARK MODE ========== */
     const darkSwitch = document.getElementById("darkSwitch");
 
     function loadTheme() {
@@ -357,11 +424,9 @@
 
     thumbs.forEach(thumb => {
       thumb.addEventListener("click", () => {
-        const newSrc = thumb.dataset.image;
-
         mainImage.classList.remove("slide");
         void mainImage.offsetWidth;
-        mainImage.src = newSrc;
+        mainImage.src = thumb.dataset.image;
         mainImage.classList.add("slide");
 
         thumbs.forEach(t => t.classList.remove("active"));
@@ -373,22 +438,21 @@
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartBtn = document.getElementById("cartBtn");
     const cartPanel = document.getElementById("cartPanel");
-    const cartCount = document.querySelector(".cart-count");
     const cartItems = document.getElementById("cartItems");
+    const cartCount = document.querySelector(".cart-count");
 
     function updateCartUI() {
       cartItems.innerHTML = "";
       cart.forEach((item, i) => {
         cartItems.innerHTML += `
-        <div class="cart-item">
-          <span>${item.name}</span>
-          <span>£${item.price}</span>
-          <span class="remove" data-i="${i}">
-            <svg fill="none" stroke-width="2" >
-              <path d="M6 6l12 12M6 18L18 6"></path>
-            </svg>
-          </span>
-        </div>`;
+          <div class="cart-item">
+            <span>${item.name}</span>
+            <span>£${item.price}</span>
+            <span class="remove" data-i="${i}">
+              ❌
+            </span>
+          </div>
+        `;
       });
 
       document.querySelectorAll(".remove").forEach(btn => {
@@ -412,7 +476,11 @@
     });
 
     cartBtn.addEventListener("click", () => {
-      cartPanel.classList.toggle("open");
+      cartPanel.classList.add("open");
+    });
+
+    document.getElementById("closeCart").addEventListener("click", () => {
+      cartPanel.classList.remove("open");
     });
 
     updateCartUI();
