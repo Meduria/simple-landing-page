@@ -13,7 +13,8 @@
       --white: #fff;
       --card: #fff;
       --thumb-bg: #f5f5f5;
-      --accent: #333;
+      --accent: #222;
+      --border: #ccc;
     }
 
     body.dark {
@@ -23,6 +24,7 @@
       --card: #242424;
       --thumb-bg: #333;
       --accent: #ddd;
+      --border: #555;
     }
 
     * {
@@ -41,69 +43,113 @@
       padding: 20px;
     }
 
+    /* HEADER BAR */
     .top-bar {
       width: 100%;
       max-width: 1100px;
       display: flex;
       justify-content: space-between;
       margin-bottom: 20px;
+      align-items: center;
     }
 
-    .toggle-dark {
-      padding: 10px 15px;
-      border-radius: 8px;
-      border: none;
-      background: var(--accent);
-      color: white;
-      cursor: pointer;
-    }
-
-    .cart-btn {
+    /* SWITCH BUTTON */
+    .switch {
       position: relative;
-      background: var(--accent);
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
+      width: 50px;
+      height: 26px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
       cursor: pointer;
+      background-color: #ccc;
+      border-radius: 30px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: 0.4s;
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    input:checked + .slider {
+      background-color: #4b8ef5;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    /* CART BUTTON */
+    .cart-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      background: var(--white);
+      border-radius: 6px;
+    }
+
+    .cart-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--accent);
     }
 
     .cart-count {
-      position: absolute;
-      top: -7px;
-      right: -7px;
       background: red;
       color: white;
+      font-size: 12px;
       padding: 2px 6px;
       border-radius: 50%;
-      font-size: 12px;
     }
 
+    /* MAIN LAYOUT */
     .container {
       display: flex;
       background: var(--card);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       max-width: 1100px;
       width: 100%;
+      border: 1px solid var(--border);
     }
 
     .thumbnails {
       display: flex;
       flex-direction: column;
+      gap: 12px;
       padding: 20px;
-      gap: 15px;
       background: var(--thumb-bg);
     }
 
-    .thumbnails .thumb {
+    .thumb {
       width: 60px;
       height: 60px;
       border-radius: 50%;
+      border: 2px solid transparent;
       cursor: pointer;
       object-fit: cover;
-      border: 2px solid transparent;
-      transition: border 0.3s;
     }
 
     .thumb.active {
@@ -113,11 +159,11 @@
     .product-view {
       flex: 1;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #dde1e7;
       padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #dde1e7;
     }
 
     .main-img {
@@ -127,22 +173,17 @@
 
     .text-bg {
       position: absolute;
-      font-size: 12rem;
-      color: #ccc;
-      font-weight: bold;
-      pointer-events: none;
       z-index: 0;
+      font-size: 10rem;
+      opacity: .15;
+      font-weight: bold;
     }
 
     .product-info {
       width: 300px;
       padding: 40px;
       background: var(--white);
-    }
-
-    .product-info h1 {
-      font-size: 2rem;
-      margin-bottom: 5px;
+      border-left: 1px solid var(--border);
     }
 
     .subtitle {
@@ -150,44 +191,30 @@
       margin-bottom: 20px;
     }
 
-    .specs {
-      display: flex;
-      gap: 30px;
-      margin-bottom: 20px;
-    }
-
-    .desc {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .buy-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
     .buy-box button {
-      background: var(--accent);
-      color: white;
+      border: 1px solid var(--border);
       padding: 10px 20px;
-      border-radius: 8px;
+      background: var(--white);
+      border-radius: 6px;
       cursor: pointer;
-      border: none;
+      color: var(--text-main);
     }
 
-    /* CART SIDEBAR */
+    .buy-box button:hover {
+      background: #ddd;
+    }
+
+    /* CART PANEL */
     .cart-panel {
       position: fixed;
       top: 0;
-      right: -400px;
-      width: 320px;
+      right: -380px;
+      width: 300px;
       height: 100%;
       background: var(--white);
-      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
-      transition: 0.4s;
+      border-left: 1px solid var(--border);
       padding: 20px;
+      transition: .4s;
       z-index: 999;
     }
 
@@ -199,70 +226,54 @@
       display: flex;
       justify-content: space-between;
       padding: 10px 0;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid var(--border);
     }
 
-    .remove {
-      color: red;
+    .remove svg {
+      width: 20px;
+      height: 20px;
+      stroke: red;
       cursor: pointer;
-      font-weight: bold;
     }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .container {
-        flex-direction: column;
-      }
-
-      .thumbnails {
-        flex-direction: row;
-        justify-content: center;
-      }
-
-      .product-info {
-        width: 100%;
-        text-align: center;
-      }
-    }
-
   </style>
+
 </head>
 
 <body>
 
   <div class="top-bar">
-    <button class="toggle-dark">🌙 Dark Mode</button>
+    <!-- DARK MODE SWITCH -->
+    <label class="switch">
+      <input type="checkbox" id="darkSwitch">
+      <span class="slider"></span>
+    </label>
 
-    <div class="cart-btn">
-      🛒 Cart
+    <!-- CART BUTTON -->
+    <div class="cart-btn" id="cartBtn">
+      <svg fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M6 6h15l-1.5 9h-13z" />
+        <circle cx="9" cy="20" r="1" />
+        <circle cx="18" cy="20" r="1" />
+      </svg>
       <span class="cart-count">0</span>
     </div>
   </div>
 
   <div class="container">
     <aside class="thumbnails">
-      <img src="img1.png" class="thumb active" data-image="img1.png" />
-      <img src="img2.png" class="thumb" data-image="img2.png" />
-      <img src="img3.png" class="thumb" data-image="img3.png" />
+      <img src="img1.png" class="thumb active" data-image="img1.png">
+      <img src="img2.png" class="thumb" data-image="img2.png">
+      <img src="img3.png" class="thumb" data-image="img3.png">
     </aside>
 
     <main class="product-view">
-      <img src="img1.png" id="mainImage" class="main-img" />
+      <img src="img1.png" id="mainImage" class="main-img">
       <div class="text-bg">DSR</div>
     </main>
 
     <section class="product-info">
       <h1>ATH-DSR7BT</h1>
       <p class="subtitle">Bluetooth Wireless Headphones</p>
-
-      <div class="specs">
-        <p><strong>2.0m</strong><br>Detachable cable</p>
-        <p><strong>45mm</strong><br>True Motion drivers</p>
-      </div>
-
-      <p class="desc">
-        Enjoy rich tones from dual-motion drivers. Clear mids, deep bass.
-      </p>
 
       <div class="buy-box">
         <span class="price">£259.00</span>
@@ -271,57 +282,69 @@
     </section>
   </div>
 
-  <!-- CART SIDEBAR -->
+  <!-- CART PANEL -->
   <div class="cart-panel" id="cartPanel">
     <h2>Your Cart</h2>
     <div id="cartItems"></div>
   </div>
 
   <script>
-    /* ================= DARK MODE ================== */
-    const darkBtn = document.querySelector('.toggle-dark');
-    darkBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      darkBtn.textContent = document.body.classList.contains('dark') ? '☀️ Light Mode' : '🌙 Dark Mode';
+    /* ========== DARK MODE SWITCH ========== */
+    const darkSwitch = document.getElementById("darkSwitch");
+
+    function loadTheme() {
+      if (localStorage.getItem("dark") === "true") {
+        document.body.classList.add("dark");
+        darkSwitch.checked = true;
+      }
+    }
+    loadTheme();
+
+    darkSwitch.addEventListener("change", () => {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("dark", document.body.classList.contains("dark"));
     });
 
-    /* ================= IMAGE SWITCHER =============== */
-    document.querySelectorAll('.thumb').forEach(thumb => {
-      thumb.addEventListener('click', () => {
-        document.getElementById('mainImage').src = thumb.dataset.image;
-
-        document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-        thumb.classList.add('active');
+    /* ========== IMAGE SWITCHER ========== */
+    document.querySelectorAll(".thumb").forEach(t => {
+      t.addEventListener("click", () => {
+        document.getElementById("mainImage").src = t.dataset.image;
+        document.querySelectorAll(".thumb").forEach(x => x.classList.remove("active"));
+        t.classList.add("active");
       });
     });
 
-    /* ================== CART LOGIC ================== */
+    /* ========== CART SYSTEM ========== */
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartBtn = document.querySelector('.cart-btn');
-    const cartPanel = document.getElementById('cartPanel');
-    const cartCount = document.querySelector('.cart-count');
-    const cartItems = document.getElementById('cartItems');
+    const cartBtn = document.getElementById("cartBtn");
+    const cartPanel = document.getElementById("cartPanel");
+    const cartCount = document.querySelector(".cart-count");
+    const cartItems = document.getElementById("cartItems");
 
     function updateCartUI() {
       cartItems.innerHTML = "";
-      cart.forEach((item, index) => {
+      cart.forEach((product, i) => {
         cartItems.innerHTML += `
           <div class="cart-item">
-            <span>${item.name}</span>
-            <span>£${item.price}</span>
-            <span class="remove" data-index="${index}">x</span>
+            <span>${product.name}</span>
+            <span>£${product.price}</span>
+            <span class="remove" data-i="${i}">
+              <svg fill="none" stroke="red" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M6 6l12 12M6 18L18 6"></path>
+              </svg>
+            </span>
           </div>
         `;
       });
 
-      document.querySelectorAll('.remove').forEach(btn => {
-        btn.addEventListener('click', () => {
-          cart.splice(btn.dataset.index, 1);
-          saveCart();
-        });
-      });
-
       cartCount.textContent = cart.length;
+
+      document.querySelectorAll(".remove").forEach(btn => {
+        btn.addEventListener("click", () => {
+          cart.splice(btn.dataset.i, 1);
+          saveCart();
+        })
+      });
     }
 
     function saveCart() {
@@ -330,10 +353,7 @@
     }
 
     document.getElementById("addToCart").addEventListener("click", () => {
-      cart.push({
-        name: "ATH-DSR7BT",
-        price: 259
-      });
+      cart.push({ name: "ATH-DSR7BT", price: 259 });
       saveCart();
     });
 
